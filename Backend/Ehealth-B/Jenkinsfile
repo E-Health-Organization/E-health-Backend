@@ -18,10 +18,10 @@
                 echo 'File changed'
                 
                 // Checkout du code à partir de GitHub
-                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: '3f42c957-2ad0-422e-957c-dc0365fa356a', url: 'https://github.com/HaAymar/Jenkins.git']])
+                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: '3f42c957-2ad0-422e-957c-dc0365fa356a', url: 'https://github.com/E-Health-Organization/E-health-Backend.git']])
                 
                 // Exécuter le build avec Maven
-                sh 'cd jenkinjavalab && mvn -B -DskipTests clean package'
+                sh 'cd Backend/Ehealth-B && mvn -B -DskipTests clean package'
                 echo 'Build Finished'
             }
         }
