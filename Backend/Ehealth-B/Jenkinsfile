@@ -1,0 +1,29 @@
+ pipeline {
+    agent any
+
+    stages {
+        stage('Get Commit Info') {
+            steps {
+                script {
+                    // Récupérer l'ID du dernier commit et son auteur
+                    def commitInfo = sh(script: "git log -1 --pretty=format:'%an <%ae>'", returnStdout: true).trim()
+                    echo "Le dernier commit a été effectué par : ${commitInfo}"
+                }
+            }
+        }
+
+        stage('Build') {
+            steps {
+                echo 'Build Start Moi'
+                echo 'File changed'
+                
+                // Checkout du code à partir de GitHub
+                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: '3f42c957-2ad0-422e-957c-dc0365fa356a', url: 'https://github.com/HaAymar/Jenkins.git']])
+                
+                // Exécuter le build avec Maven
+                sh 'cd jenkinjavalab && mvn -B -DskipTests clean package'
+                echo 'Build Finished'
+            }
+        }
+    }
+}
