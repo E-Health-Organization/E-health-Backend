@@ -22,7 +22,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                echo 'Build Start'
+                echo 'Build Start yes'
                 echo 'File changed'
                 
                 // Exécuter le build avec Maven
