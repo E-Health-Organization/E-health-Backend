@@ -14,7 +14,7 @@
 
         stage('Build') {
             steps {
-                echo 'Build Start Moi'
+                echo 'Build Start Moi testing'
                 echo 'File changed'
                 
                 // Checkout du code à partir de GitHub
