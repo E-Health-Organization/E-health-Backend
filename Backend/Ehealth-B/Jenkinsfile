@@ -1,0 +1,34 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout Code') {
+            steps {
+                echo 'Checkout code from GitHub'
+                // Checkout du code à partir de GitHub
+                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: '3f42c957-2ad0-422e-957c-dc0365fa356a', url: 'https://github.com/E-Health-Organization/E-health-Backend.git']])
+            }
+        }
+
+        stage('Get Commit Info') {
+            steps {
+                script {
+                    // Récupérer l'ID du dernier commit et son auteur
+                    def commitInfo = sh(script: "git log -1 --pretty=format:'%an <%ae>'", returnStdout: true).trim()
+                    echo "Le dernier commit a été effectué par : ${commitInfo}"
+                }
+            }
+        }
+
+        stage('Build') {
+            steps {
+                echo 'Build Start yes ça marche'
+                echo 'File changed'
+                
+                // Exécuter le build avec Maven
+                sh 'cd Backend/Ehealth-B && mvn -B -DskipTests clean package'
+                echo 'Build Finished'
+            }
+        }
+    }
+}
