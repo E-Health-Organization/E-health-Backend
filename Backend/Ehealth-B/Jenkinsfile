@@ -8,7 +8,7 @@ pipeline {
             steps {
                 echo 'Build Start'
                 
-                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'eb63b']])
+                checkout scmGit(branches: [[name: '*/ciPipeline']], extensions: [], userRemoteConfigs: [[credentialsId: 'fa0448dd-2143-48f4-8008-5c68c49c4cac', url: 'https://github.com/E-Health-Organization/E-health-Backend.git']])
                 
                 sh 'mvn -B -DskipTests clean package'
                 
