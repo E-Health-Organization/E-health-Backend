@@ -10,7 +10,7 @@ pipeline {
                 
                 checkout scmGit(branches: [[name: '*/ciPipeline']], extensions: [], userRemoteConfigs: [[credentialsId: 'fa0448dd-2143-48f4-8008-5c68c49c4cac', url: 'https://github.com/E-Health-Organization/E-health-Backend.git']])
                 
-                sh 'mvn -B -DskipTests clean package'
+                sh 'cd Backend/Ehealth-B && mvn -B -DskipTests clean package'
                 
                 echo 'Build Finished'
             }
