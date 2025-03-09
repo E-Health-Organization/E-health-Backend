@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo 'Build Start yes'
+                echo 'Build Start'
                 
                 checkout scmGit(branches: [[name: '*/ciPipeline']], extensions: [], userRemoteConfigs: [[credentialsId: 'd160d1c6-6304-4ba3-b050-7d418e127b85', url: 'https://github.com/E-Health-Organization/E-health-Backend.git']])
                 
