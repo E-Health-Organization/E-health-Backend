@@ -42,18 +42,11 @@ pipeline {
 
                     echo 'Pushing to GitHub...'
                     withCredentials([string(credentialsId: 'GITHUB_TOKEN', variable: 'TOKEN')]) {
-                        // Créer un fichier temporaire de credentials
                         sh '''
-                        echo "protocol=https" > ~/.git-credentials
-                        echo "host=github.com" >> ~/.git-credentials
-                        echo "username=HaAymar" >> ~/.git-credentials
-                        echo "password=${TOKEN}" >> ~/.git-credentials
-
-                        git config --global credential.helper store
+                        git config --global credential.helper "store --file ~/.git-credentials"
+                        echo "https://HaAymar:${TOKEN}@github.com" > ~/.git-credentials
                         cd target-repo
                         git push https://github.com/E-Health-Organization/Artifact_Ehealth_Backend.git
-
-                        // Supprimer les credentials après le push
                         rm ~/.git-credentials
                         '''
                     }
