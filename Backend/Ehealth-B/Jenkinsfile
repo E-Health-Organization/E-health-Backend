@@ -40,20 +40,7 @@ pipeline {
                     git push https://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@github.com/E-Health-Organization/Artifact_Ehealth_Backend.git
                     '''
 
-                    echo 'Pushing
-                    withCredentials([string(credentialsId: 'GITHUB_TOKEN', variable: 'TOKEN')]) {
-                        sh '''
-                        # Configurer l'authentification Git avec le token
-                        cd target-repo
-                        git config --global credential.helper store
-
-                        # Pousser vers le dépôt en utilisant le token dans l'URL
-                        git push https://${TOKEN}@github.com/E-Health-Organization/Artifact_Ehealth_Backend.git
-
-                        # Nettoyer les credentials après le push
-                        git config --global --unset credential.helper
-                        '''
-                    }
+                    
 
                     echo 'Artifact copied successfully!'
                 }
