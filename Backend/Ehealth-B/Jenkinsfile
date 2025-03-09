@@ -16,8 +16,7 @@ pipeline {
                 checkout scmGit(branches: [[name: '*/ciPipeline']], 
                     extensions: [], 
                     userRemoteConfigs: [[credentialsId: 'd160d1c6-6304-4ba3-b050-7d418e127b85', 
-                    url: 'https://github.com/E-Health-Organization/E-health-Backend.git']]
-                )
+                    url: 'https://github.com/E-Health-Organization/E-health-Backend.git']])
                 
                 // Build avec Maven sans exécuter les tests
                 sh 'cd Backend/Ehealth-B && mvn -B -DskipTests clean package'
@@ -30,18 +29,14 @@ pipeline {
             steps {
                 script {
                     echo 'Cleaning previous target-repo if exists...'
-                    sh 'rm -rf target-repo'  
+                    sh 'rm -rf target-repo'  // 🔥 Supprime l'ancien répertoire
 
                     echo 'Cloning the target repository...'
-                    
-                    // Cloner le deuxième repo (où tu veux stocker l'artefact)
                     sh '''
                     git clone https://github.com/E-Health-Organization/Artifact_Ehealth_Backend.git target-repo
                     '''
 
                     echo 'Copying artifact...'
-                    
-                    // Copier l'artefact dans le dépôt cible
                     sh '''
                     cp ${ARTIFACT_PATH}/${ARTIFACT_NAME} target-repo/
                     cd target-repo
@@ -49,8 +44,15 @@ pipeline {
                     git config user.name "HaAymar"
                     git add ${ARTIFACT_NAME}
                     git commit -m "Adding new build artifact"
-                    git push https://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@github.com/E-Health-Organization/Artifact_Ehealth_Backend.git
                     '''
+
+                    echo 'Pushing to GitHub...'
+                    withCredentials([string(credentialsId: 'GITHUB_TOKEN', variable: 'TOKEN')]) {
+                        sh '''
+                        cd target-repo
+                        git push https://${TOKEN}@github.com/E-Health-Organization/Artifact_Ehealth_Backend.git
+                        '''
+                    }
 
                     echo 'Artifact copied successfully!'
                 }
