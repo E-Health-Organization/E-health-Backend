@@ -44,8 +44,8 @@ pipeline {
                     withCredentials([string(credentialsId: 'GITHUB_TOKEN', variable: 'TOKEN')]) {
                         sh '''
                         # Configurer les credentials Git
-                        git config --global credential.helper "store --file ~/.git-credentials"
-                        echo "https://${TOKEN}@github.com" > ~/.git-credentials
+                        // git config --global credential.helper "store --file ~/.git-credentials"
+                        // echo "https://${TOKEN}@github.com" > ~/.git-credentials
 
                         # Pousser vers le dépôt
                         cd target-repo
@@ -53,7 +53,7 @@ pipeline {
                         git push https://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@github.com/E-Health-Organization/Artifact_Ehealth_Backend.git
 
                         # Nettoyer les credentials après le push
-                        rm ~/.git-credentials
+                        // rm ~/.git-credentials
                         '''
                     }
 
