@@ -37,7 +37,7 @@ pipeline {
                     git config user.name "HaAymar"
                     git add ${ARTIFACT_NAME}
                     git commit -m "Adding new build artifact"
-                    git push https://HaAymar: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@github.com/E-Health-Organization/Artifact_Ehealth_Backend.git
+                    git push https://HaAymar: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@github.com/E-Health-Organization/Artifact_Ehealth_Backend.git
                     '''
 
                     
