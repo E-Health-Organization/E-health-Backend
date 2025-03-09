@@ -49,7 +49,8 @@ pipeline {
 
                         # Pousser vers le dépôt
                         cd target-repo
-                        git push https://github.com/E-Health-Organization/Artifact_Ehealth_Backend.git
+                        
+                        git push https://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@github.com/E-Health-Organization/Artifact_Ehealth_Backend.git
 
                         # Nettoyer les credentials après le push
                         rm ~/.git-credentials
