@@ -48,7 +48,7 @@ pipeline {
                     withCredentials([string(credentialsId: 'GITHUB_TOKEN', variable: 'TOKEN')]) {
                         sh """
                         cd target-repo
-                        git push https://HaAymar:${TOKEN}@github.com/E-Health-Organization/Artifact_Ehealth_Backend.git
+                        git push https://HaAymar:${GITHUB_TOKEN}@github.com/E-Health-Organization/Artifact_Ehealth_Backend.git
                         """
                     }
 
