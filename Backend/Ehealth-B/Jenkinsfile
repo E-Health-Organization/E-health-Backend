@@ -33,7 +33,7 @@ pipeline {
                     
                     // Cloner le deuxième repo (où tu veux stocker l'artefact)
                     sh '''
-                    git clone https://github.com/E-Health-Organization/E-health-Artifacts.git target-repo
+                    git clone https://github.com/E-Health-Organization/Artifact_Ehealth_Backend.git target-repo
                     '''
 
                     echo 'Copying artifact...'
@@ -46,7 +46,7 @@ pipeline {
                     git config user.name "HaAymar"
                     git add ${ARTIFACT_NAME}
                     git commit -m "Adding new build artifact"
-                    git push https://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@github.com/E-Health-Organization/E-health-Artifacts.git
+                    git push https://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@github.com/E-Health-Organization/Artifact_Ehealth_Backend.git
                     '''
 
                     echo 'Artifact copied successfully!'
