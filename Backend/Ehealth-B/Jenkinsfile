@@ -29,6 +29,9 @@ pipeline {
         stage('Copy Artifact to Another Repo') {
             steps {
                 script {
+                    echo 'Cleaning previous target-repo if exists...'
+                    sh 'rm -rf target-repo'  
+
                     echo 'Cloning the target repository...'
                     
                     // Cloner le deuxième repo (où tu veux stocker l'artefact)
