@@ -46,7 +46,7 @@ pipeline {
                         sh '''
                         echo "protocol=https" > ~/.git-credentials
                         echo "host=github.com" >> ~/.git-credentials
-                        echo "username=x-access-token" >> ~/.git-credentials
+                        echo "username=HaAymar" >> ~/.git-credentials
                         echo "password=${TOKEN}" >> ~/.git-credentials
 
                         git config --global credential.helper store
