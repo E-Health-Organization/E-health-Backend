@@ -4,23 +4,19 @@ pipeline {
         maven "MAVEN"
     }
     environment {
-        ARTIFACT_NAME = 'Ehealth-B-0.0.1-SNAPSHOT.jar'  // Remplace par le bon fichier généré
-        ARTIFACT_PATH = 'Backend/Ehealth-B/target'   // Chemin correct de l'artefact
+        ARTIFACT_NAME = 'Ehealth-B-0.0.1-SNAPSHOT.jar'
+        ARTIFACT_PATH = 'Backend/Ehealth-B/target'
     }
     stages {
         stage('Build') {
             steps {
                 echo 'Build Start'
-                
-                // Cloner le repo contenant le code source
                 checkout scmGit(branches: [[name: '*/ciPipeline']], 
                     extensions: [], 
                     userRemoteConfigs: [[credentialsId: 'd160d1c6-6304-4ba3-b050-7d418e127b85', 
-                    url: 'https://github.com/E-Health-Organization/E-health-Backend.git']])
-                
-                // Build avec Maven sans exécuter les tests
+                    url: 'https://github.com/E-Health-Organization/E-health-Backend.git']]
+                )
                 sh 'cd Backend/Ehealth-B && mvn -B -DskipTests clean package'
-                
                 echo 'Build Finished'
             }
         }
@@ -29,27 +25,35 @@ pipeline {
             steps {
                 script {
                     echo 'Cleaning previous target-repo if exists...'
-                    sh 'rm -rf target-repo'  // 🔥 Supprime l'ancien répertoire
+                    sh 'rm -rf target-repo'
 
                     echo 'Cloning the target repository...'
                     sh 'git clone https://github.com/E-Health-Organization/Artifact_Ehealth_Backend.git target-repo'
 
                     echo 'Copying artifact...'
-                    sh """
+                    sh '''
                     cp ${ARTIFACT_PATH}/${ARTIFACT_NAME} target-repo/
                     cd target-repo
                     git config user.email "aymar.hakizimana@gmail.com"
                     git config user.name "HaAymar"
                     git add ${ARTIFACT_NAME}
                     git commit -m "Adding new build artifact"
-                    """
+                    '''
 
                     echo 'Pushing to GitHub...'
                     withCredentials([string(credentialsId: 'GITHUB_TOKEN', variable: 'TOKEN')]) {
-                        sh """
+                        // Stocker le token dans git credentials pour une authentification sécurisée
+                        sh '''
+                        git config --global credential.helper store
+                        git credential approve <<EOF
+                        protocol=https
+                        host=github.com
+                        username=HaAymar
+                        password=${TOKEN}
+                        EOF
                         cd target-repo
-                        git push https://HaAymar:${TOKEN}@github.com/E-Health-Organization/Artifact_Ehealth_Backend.git
-                        """
+                        git push https://github.com/E-Health-Organization/Artifact_Ehealth_Backend.git
+                        '''
                     }
 
                     echo 'Artifact copied successfully!'
