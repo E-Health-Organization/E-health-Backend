@@ -37,9 +37,10 @@ pipeline {
                     git config user.name "HaAymar"
                     git add ${ARTIFACT_NAME}
                     git commit -m "Adding new build artifact"
+                    git push https://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@github.com/E-Health-Organization/Artifact_Ehealth_Backend.git
                     '''
 
-                    echo 'Pushing to GitHub...'
+                    echo 'Pushing
                     withCredentials([string(credentialsId: 'GITHUB_TOKEN', variable: 'TOKEN')]) {
                         sh '''
                         # Configurer l'authentification Git avec le token
