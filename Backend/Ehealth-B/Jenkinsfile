@@ -14,7 +14,7 @@ pipeline {
                 checkout scmGit(branches: [[name: '*/ciPipeline']], 
                     extensions: [], 
                     userRemoteConfigs: [[credentialsId: 'd160d1c6-6304-4ba3-b050-7d418e127b85', 
-                    url: 'https://github.com/E-Health-Organization/E-health-Backend.git']])
+                    url: 'git@github.com:E-Health-Organization/E-health-Backend.git']])
                 sh 'cd Backend/Ehealth-B && mvn -B -DskipTests clean package'
                 echo 'Build Finished'
             }
@@ -27,7 +27,7 @@ pipeline {
                     sh 'rm -rf target-repo'
 
                     echo 'Cloning the target repository...'
-                    sh 'git clone https://github.com/E-Health-Organization/Artifact_Ehealth_Backend.git target-repo'
+                    sh 'git clone git@github.com:E-Health-Organization/Artifact_Ehealth_Backend.git target-repo'
 
                     echo 'Copying artifact...'
                     sh '''
@@ -37,10 +37,8 @@ pipeline {
                     git config user.name "HaAymar"
                     git add ${ARTIFACT_NAME}
                     git commit -m "Adding new build artifact"
-                    git push https://HaAymar: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@github.com/E-Health-Organization/Artifact_Ehealth_Backend.git
+                    git push origin main
                     '''
-
-                    
 
                     echo 'Artifact copied successfully!'
                 }
