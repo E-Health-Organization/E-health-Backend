@@ -4,8 +4,8 @@ pipeline {
         maven "MAVEN"
     }
     environment {
-        ARTIFACT_NAME = 'Ehealth-B-0.0.1-SNAPSHOT.jar'  // Remplace par le nom correct du fichier généré
-        ARTIFACT_PATH = 'Backend/Ehealth-B/target'   // Chemin vers l'artefact
+        ARTIFACT_NAME = 'Ehealth-B-0.0.1-SNAPSHOT.jar'  // Remplace par le bon fichier généré
+        ARTIFACT_PATH = 'Backend/Ehealth-B/target'   // Chemin correct de l'artefact
     }
     stages {
         stage('Build') {
@@ -32,27 +32,24 @@ pipeline {
                     sh 'rm -rf target-repo'  // 🔥 Supprime l'ancien répertoire
 
                     echo 'Cloning the target repository...'
-                    sh '''
-                    git clone https://github.com/E-Health-Organization/Artifact_Ehealth_Backend.git target-repo
-                    '''
+                    sh 'git clone https://github.com/E-Health-Organization/Artifact_Ehealth_Backend.git target-repo'
 
                     echo 'Copying artifact...'
-                    sh '''
+                    sh """
                     cp ${ARTIFACT_PATH}/${ARTIFACT_NAME} target-repo/
                     cd target-repo
                     git config user.email "aymar.hakizimana@gmail.com"
                     git config user.name "HaAymar"
                     git add ${ARTIFACT_NAME}
                     git commit -m "Adding new build artifact"
-                    '''
+                    """
 
                     echo 'Pushing to GitHub...'
                     withCredentials([string(credentialsId: 'GITHUB_TOKEN', variable: 'TOKEN')]) {
-                        sh '''
+                        sh """
                         cd target-repo
-                        git push git push https://HaAymar:{TOKEN}@github.com/E-Health-Organization/Artifact_Ehealth_Backend.git
-
-                        '''
+                        git push https://HaAymar:${TOKEN}@github.com/E-Health-Organization/Artifact_Ehealth_Backend.git
+                        """
                     }
 
                     echo 'Artifact copied successfully!'
