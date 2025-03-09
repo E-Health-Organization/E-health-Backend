@@ -4,7 +4,7 @@ pipeline {
         maven "MAVEN"
     }
     environment {
-        ARTIFACT_NAME = 'Ehealth-B-1.0-SNAPSHOT.jar'  // Remplace par le nom correct du fichier généré
+        ARTIFACT_NAME = 'Ehealth-B-0.0.1-SNAPSHOT.jar'  // Remplace par le nom correct du fichier généré
         ARTIFACT_PATH = 'Backend/Ehealth-B/target'   // Chemin vers l'artefact
     }
     stages {
