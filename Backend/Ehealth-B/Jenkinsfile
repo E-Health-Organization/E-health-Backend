@@ -3,16 +3,53 @@ pipeline {
     tools {
         maven "MAVEN"
     }
+    environment {
+        ARTIFACT_NAME = 'Ehealth-B-0.0.1-SNAPSHOT.jar'
+        ARTIFACT_PATH = 'Backend/Ehealth-B/target'
+    }
     stages {
         stage('Build') {
             steps {
                 echo 'Build Start'
-                
-                checkout scmGit(branches: [[name: '*/ciPipeline']], extensions: [], userRemoteConfigs: [[credentialsId: 'd160d1c6-6304-4ba3-b050-7d418e127b85', url: 'https://github.com/E-Health-Organization/E-health-Backend.git']])
-                
+                checkout scmGit(branches: [[name: '*/ciPipeline']], 
+                    extensions: [], 
+                    userRemoteConfigs: [[credentialsId: 'd160d1c6-6304-4ba3-b050-7d418e127b85', 
+                    url: 'https://github.com/E-Health-Organization/E-health-Backend.git']])
                 sh 'cd Backend/Ehealth-B && mvn -B -DskipTests clean package'
-                
                 echo 'Build Finished'
+            }
+        }
+
+        stage('Copy Artifact to Another Repo') {
+            steps {
+                script {
+                    echo 'Cleaning previous target-repo if exists...'
+                    sh 'rm -rf target-repo'
+
+                    echo 'Cloning the target repository...'
+                    sh 'git clone https://github.com/E-Health-Organization/Artifact_Ehealth_Backend.git target-repo'
+
+                    echo 'Copying artifact...'
+                    sh '''
+                    cp ${ARTIFACT_PATH}/${ARTIFACT_NAME} target-repo/
+                    cd target-repo
+                    git config user.email "aymar.hakizimana@gmail.com"
+                    git config user.name "HaAymar"
+                    git add ${ARTIFACT_NAME}
+                    git commit -m "Adding new build artifact"
+                    '''
+
+                    // echo 'Pushing changes...'
+                    // withCredentials([usernamePassword(credentialsId: 'GITHUB_CREDENTIALS_ID', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
+                    //     sh '''
+                    //     cd target-repo
+                    //     git remote set-url origin https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/E-Health-Organization/Artifact_Ehealth_Backend.git
+                    //     git push origin main
+                    //     '''
+                    // }
+
+                    echo 'Artifact copied successfully!'
+                }
             }
         }
     }
