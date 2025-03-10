@@ -1,5 +1,5 @@
 pipeline {
-    agent {label 'Agent'}
+    agent { label 'Agent' }
 
     tools {
         maven "MAVEN"
@@ -64,7 +64,20 @@ pipeline {
                         git commit -m "Adding new build artifact"
                     '''
 
-                    echo 'Artifact copied successfully!'
+                    echo 'Pushing changes to the target repository...'
+                    withCredentials([usernamePassword(
+                        credentialsId: 'GITHUB_CREDENTIALS_ID', // Remplacez par l'ID de vos credentials
+                        usernameVariable: 'GIT_USERNAME',
+                        passwordVariable: 'GIT_PASSWORD'
+                    )]) {
+                        sh '''
+                            cd target-repo
+                            git remote set-url origin https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/E-Health-Organization/Artifact_Ehealth_Backend.git
+                            git push origin main
+                        '''
+                    }
+
+                    echo 'Artifact copied and pushed successfully!'
                 }
             }
         }
