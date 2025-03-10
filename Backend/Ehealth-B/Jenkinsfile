@@ -33,6 +33,12 @@ pipeline {
             }
         }
 
+        stage('PMD') {
+            steps {
+                sh 'cd Backend/Ehealth-B && mvn pmd:pmd'
+            }
+        }
+
         stage('Copy Artifact to Another Repo') {
             steps {
                 script {
@@ -67,7 +73,7 @@ pipeline {
             // recordIssues(tools: [findBugs(pattern: 'Backend/Ehealth-B/target/findbugsXml.xml')])
 
             // Générer un rapport PMD dans Jenkins après chaque build
-            // recordIssues(tools: [pmdParser(pattern: 'Backend/Ehealth-B/target/pmd.xml')])
+            recordIssues(tools: [pmdParser(pattern: 'Backend/Ehealth-B/target/pmd.xml')])
         }
     }
 }
