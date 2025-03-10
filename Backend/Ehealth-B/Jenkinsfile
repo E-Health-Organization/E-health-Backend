@@ -26,11 +26,8 @@ pipeline {
                     echo 'Cleaning previous target-repo if exists...'
                     sh 'rm -rf target-repo'
 
-                    echo 'Adding GitHub to known hosts...'
-                    sh 'mkdir -p ~/.ssh && ssh-keyscan github.com >> ~/.ssh/known_hosts'
-
                     echo 'Cloning the target repository...'
-                    sh 'git clone git@github.com:E-Health-Organization/Artifact_Ehealth_Backend.git'
+                    sh 'git clone https://github.com/E-Health-Organization/Artifact_Ehealth_Backend.git target-repo'
 
                     echo 'Copying artifact...'
                     sh '''
@@ -40,8 +37,16 @@ pipeline {
                     git config user.name "HaAymar"
                     git add ${ARTIFACT_NAME}
                     git commit -m "Adding new build artifact"
-                    // git push origin main
                     '''
+
+                    echo 'Pushing changes...'
+                    withCredentials([usernamePassword(credentialsId: 'GITHUB_CREDENTIALS_ID', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
+                        sh '''
+                        cd target-repo
+                        git remote set-url origin https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/E-Health-Organization/Artifact_Ehealth_Backend.git
+                        git push origin main
+                        '''
+                    }
 
                     echo 'Artifact copied successfully!'
                 }
