@@ -39,6 +39,12 @@ pipeline {
             }
         }
 
+        stage('FindBug') {
+            steps {
+                sh 'cd Backend/Ehealth-B && mvn stotbugs:stotbugs'
+            }
+        }
+
         stage('Copy Artifact to Another Repo') {
             steps {
                 script {
@@ -70,7 +76,7 @@ pipeline {
             recordIssues(tools: [checkStyle(pattern: 'Backend/Ehealth-B/target/checkstyle-result.xml')])
 
             // Générer un rapport FindBugs dans Jenkins après chaque build
-            // recordIssues(tools: [findBugs(pattern: 'Backend/Ehealth-B/target/findbugsXml.xml')])
+            recordIssues(tools: [spotBugs(pattern: 'Backend/Ehealth-B/target/spotbugsXml.xml')])
 
             // Générer un rapport PMD dans Jenkins après chaque build
             recordIssues(tools: [pmdParser(pattern: 'Backend/Ehealth-B/target/pmd.xml')])
