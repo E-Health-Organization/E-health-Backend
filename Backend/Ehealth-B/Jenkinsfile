@@ -37,7 +37,7 @@ pipeline {
             // Générer un rapport PMD dans Jenkins après chaque build
             // recordIssues(tools: [pmdParser(pattern: '**/target/pmd.xml')])
         }
-
+        }
         stage('Copy Artifact to Another Repo') {
             steps {
                 script {
