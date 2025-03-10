@@ -41,7 +41,7 @@ pipeline {
 
         stage('FindBug') {
             steps {
-                sh 'cd Backend/Ehealth-B && mvn stotbugs:stotbugs'
+                sh 'cd Backend/Ehealth-B && mvn spotbugs:spotbugs'
             }
         }
 
