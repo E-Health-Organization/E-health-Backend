@@ -2,41 +2,34 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.4.2</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-
     <groupId>com.example</groupId>
     <artifactId>Ehealth-B</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>Ehealth-B</name>
     <description>Ehealth Spring Boot</description>
     <url/>
-
     <licenses>
         <license/>
     </licenses>
-
     <developers>
         <developer/>
     </developers>
-
     <scm>
         <connection/>
         <developerConnection/>
         <tag/>
         <url/>
     </scm>
-
     <properties>
         <java.version>17</java.version>
-        <maven.site.skin>maven-fluido-skin</maven.site.skin> <!-- Fluido skin configuration -->
+        <maven-checkstyle-plugin.version>3.2.1</maven-checkstyle-plugin.version> <!-- Version du plugin Checkstyle -->
     </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -56,41 +49,33 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <!-- Fluido skin dependency -->
-        <dependency>
-            <groupId>org.apache.maven.skins</groupId>
-            <artifactId>maven-fluido-skin</artifactId>
-            <version>2.0.0-M9</version>
-        </dependency>
     </dependencies>
 
     <build>
         <plugins>
-            <!-- Spring Boot Maven Plugin -->
+            <!-- Plugin Spring Boot -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-            
-            <!-- Checkstyle Plugin configuration -->
+
+            <!-- Plugin Checkstyle -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>3.6.0</version>
+                <version>${maven-checkstyle-plugin.version}</version>
+                <configuration>
+                    <configLocation>checkstyle.xml</configLocation> <!-- Fichier de configuration Checkstyle -->
+                    <failOnViolation>true</failOnViolation> <!-- Échoue le build en cas de violation -->
+                    <violationSeverity>warning</violationSeverity> <!-- Niveau de sévérité des violations -->
+                </configuration>
                 <executions>
                     <execution>
                         <goals>
-                            <goal>checkstyle</goal>
+                            <goal>check</goal> <!-- Exécute Checkstyle lors de la phase "verify" -->
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-            
-            <!-- Maven Site Plugin for site generation -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-site-plugin</artifactId>
-                <version>3.9.1</version>
             </plugin>
         </plugins>
     </build>
