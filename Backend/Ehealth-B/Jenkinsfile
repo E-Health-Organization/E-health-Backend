@@ -31,12 +31,6 @@ pipeline {
             steps {
                 sh 'cd Backend/Ehealth-B && mvn checkstyle:checkstyle'
             }
-            post {
-                success {
-                    // Publier le rapport Checkstyle
-                    publishCheckstyle pattern: 'Backend/Ehealth-B/target/checkstyle-result.xml'
-                }
-            }
         }
 
         stage('Copy Artifact to Another Repo') {
