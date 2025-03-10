@@ -14,14 +14,7 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Build Start'
-                checkout scmGit(
-                    branches: [[name: '*/ciPipeline']],
-                    extensions: [],
-                    userRemoteConfigs: [[
-                        credentialsId: 'd160d1c6-6304-4ba3-b050-7d418e127b85',
-                        url: 'https://github.com/E-Health-Organization/E-health-Backend.git'
-                    ]]
-                )
+                checkout scmGit(branches: [[name: '*/ciPipeline']], extensions: [], userRemoteConfigs: [[credentialsId: '72145410-c633-4919-8bdd-f5ad0b33e759', url: 'https://github.com/E-Health-Organization/E-health-Backend.git']])
                 sh 'cd Backend/Ehealth-B && mvn -B -DskipTests clean package'
                 echo 'Build Finished'
             }
