@@ -14,7 +14,14 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Build Start'
-                checkout scmGit(branches: [[name: '*/ciPipeline']], extensions: [], userRemoteConfigs: [[credentialsId: '72145410-c633-4919-8bdd-f5ad0b33e759', url: 'https://github.com/E-Health-Organization/E-health-Backend.git']])
+                checkout scmGit(
+                    branches: [[name: '*/ciPipeline']],
+                    extensions: [],
+                    userRemoteConfigs: [[
+                        credentialsId: '72145410-c633-4919-8bdd-f5ad0b33e759',
+                        url: 'https://github.com/E-Health-Organization/E-health-Backend.git'
+                    ]]
+                )
                 sh 'cd Backend/Ehealth-B && mvn -B -DskipTests clean package'
                 echo 'Build Finished'
             }
@@ -26,18 +33,6 @@ pipeline {
             }
         }
 
-        post {
-        always {
-            // Générer un rapport Checkstyle dans Jenkins après chaque build
-            recordIssues(tools: [checkStyle(pattern: '/target/checkstyle-result.xml')])
-
-            // Générer un rapport FindBugs dans Jenkins après chaque build
-            // recordIssues(tools: [findBugs(pattern: '/target/findbugsXml.xml')])
-
-            // Générer un rapport PMD dans Jenkins après chaque build
-            // recordIssues(tools: [pmdParser(pattern: '**/target/pmd.xml')])
-        }
-        }
         stage('Copy Artifact to Another Repo') {
             steps {
                 script {
@@ -60,6 +55,19 @@ pipeline {
                     echo 'Artifact copied successfully!'
                 }
             }
+        }
+    }
+
+    post {
+        always {
+            // Générer un rapport Checkstyle dans Jenkins après chaque build
+            recordIssues(tools: [checkStyle(pattern: 'Backend/Ehealth-B/target/checkstyle-result.xml')])
+
+            // Générer un rapport FindBugs dans Jenkins après chaque build
+            // recordIssues(tools: [findBugs(pattern: 'Backend/Ehealth-B/target/findbugsXml.xml')])
+
+            // Générer un rapport PMD dans Jenkins après chaque build
+            // recordIssues(tools: [pmdParser(pattern: 'Backend/Ehealth-B/target/pmd.xml')])
         }
     }
 }
