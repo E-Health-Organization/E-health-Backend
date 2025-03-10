@@ -40,7 +40,7 @@ pipeline {
                     git config user.name "HaAymar"
                     git add ${ARTIFACT_NAME}
                     git commit -m "Adding new build artifact"
-                    git push origin main
+                    // git push origin main
                     '''
 
                     echo 'Artifact copied successfully!'
