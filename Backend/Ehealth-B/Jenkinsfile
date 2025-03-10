@@ -26,6 +26,18 @@ pipeline {
             }
         }
 
+        post {
+        always {
+            // Générer un rapport Checkstyle dans Jenkins après chaque build
+            recordIssues(tools: [checkStyle(pattern: '/target/checkstyle-result.xml')])
+
+            // Générer un rapport FindBugs dans Jenkins après chaque build
+            // recordIssues(tools: [findBugs(pattern: '/target/findbugsXml.xml')])
+
+            // Générer un rapport PMD dans Jenkins après chaque build
+            // recordIssues(tools: [pmdParser(pattern: '**/target/pmd.xml')])
+        }
+
         stage('Copy Artifact to Another Repo') {
             steps {
                 script {
