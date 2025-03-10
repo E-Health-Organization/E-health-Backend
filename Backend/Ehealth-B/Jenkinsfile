@@ -39,14 +39,14 @@ pipeline {
                     git commit -m "Adding new build artifact"
                     '''
 
-                    echo 'Pushing changes...'
-                    withCredentials([usernamePassword(credentialsId: 'GITHUB_CREDENTIALS_ID', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
-                        sh '''
-                        cd target-repo
-                        git remote set-url origin https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/E-Health-Organization/Artifact_Ehealth_Backend.git
-                        git push origin main
-                        '''
-                    }
+                    // echo 'Pushing changes...'
+                    // withCredentials([usernamePassword(credentialsId: 'GITHUB_CREDENTIALS_ID', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
+                    //     sh '''
+                    //     cd target-repo
+                    //     git remote set-url origin https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/E-Health-Organization/Artifact_Ehealth_Backend.git
+                    //     git push origin main
+                    //     '''
+                    // }
 
                     echo 'Artifact copied successfully!'
                 }
