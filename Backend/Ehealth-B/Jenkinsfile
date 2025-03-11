@@ -103,20 +103,26 @@ pipeline {
 
             // Générer un rapport PMD dans Jenkins après chaque build
             recordIssues(tools: [pmdParser(pattern: 'Backend/Ehealth-B/target/pmd.xml')])
-
-            // Pour debugging
-            echo "📧 Attempting to send email notification..."
         }
     
 
     
         success {
+
+            echo  "Attempting to send email notification..."
+
             emailext (
                 subject: "SUCCESS: Build ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                 body: "The build was successful!\n\nCheck logs: ${env.BUILD_URL}",
                 to: "teodora.mtv@gmail.com",
-                mimeType: 'text/plain'
+                mimeType: 'text/plain',
+                smtpHost: 'smtp.gmail.com',
+                smtpPort: '465',
+                smtpUser: 'teodora.mtv@gmail.com',
+                smtpPassword: 'tpgt haum gadc lwgf',
+                smtpTLS: true
             )
+   
         }
         unstable {
             emailext (
@@ -133,6 +139,7 @@ pipeline {
                 to: "teodora.mtv@gmail.com",
                 mimeType: 'text/plain'
             )
-        }
+        }   
     }
 }
+
