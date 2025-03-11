@@ -134,5 +134,6 @@ pipeline {
 
         always {
         echo "📧 Attempting to send email notification..."
+        }
     }
 }
