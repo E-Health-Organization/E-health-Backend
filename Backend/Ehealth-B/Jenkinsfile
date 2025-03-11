@@ -108,9 +108,12 @@ pipeline {
 
     
         success {
-            emailext subject: "SUCCESS: Build ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+            emailext (
+                subject: "SUCCESS: Build ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                      body: "The build was successful!\n\nCheck logs: ${env.BUILD_URL}",
                      to: "teodora.mtv@gmail.com"
+                     mimeType: 'text/plain'
+            )
         }
         unstable {
             emailext subject: "UNSTABLE: Code Analysis Issues in ${env.JOB_NAME} #${env.BUILD_NUMBER}",
@@ -122,5 +125,8 @@ pipeline {
                      body: "The build failed! Please check the errors.\n\nCheck logs: ${env.BUILD_URL}",
                      to: "teodora.mtv@gmail.com"
         }
+
+        always {
+        echo "📧 Attempting to send email notification..."
     }
 }
