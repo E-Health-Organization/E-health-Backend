@@ -29,8 +29,18 @@ pipeline {
 
         stage('Checkstyle') {
             steps {
-                sh 'cd Backend/Ehealth-B && mvn checkstyle:checkstyle'
+                script {
+                    def exitCode = sh(script: 'cd Backend/Ehealth-B && mvn checkstyle:checkstyle', returnStatus: true)
+                    if (exitCode != 0) {
+                        currentBuild.result = 'UNSTABLE'
+                        emailext subject: "Checkstyle Issues in ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                                 body: "Checkstyle found issues in the code.\n\nCheck reports: ${env.BUILD_URL} \n\nPlease review and fix them.",
+                                 to: "teodora.mtv@gmail.com",
+                                 attachmentsPattern: "Backend/Ehealth-B/target/checkstyle-result.xml"
+                    }
+                }
             }
+            
         }
 
         stage('PMD') {
@@ -93,6 +103,24 @@ pipeline {
 
             // Générer un rapport PMD dans Jenkins après chaque build
             recordIssues(tools: [pmdParser(pattern: 'Backend/Ehealth-B/target/pmd.xml')])
+        }
+    }
+
+     post {
+        success {
+            emailext subject: "SUCCESS: Build ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                     body: "The build was successful!\n\nCheck logs: ${env.BUILD_URL}",
+                     to: "teodora.mtv@gmail.com"
+        }
+        unstable {
+            emailext subject: "UNSTABLE: Code Analysis Issues in ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                     body: "Static code analysis detected issues. Please review Checkstyle, PMD, and SpotBugs reports.\n\nBuild Logs: ${env.BUILD_URL}",
+                     to: "teodora.mtv@gmail.com"
+        }
+        failure {
+            emailext subject: "FAILURE: Build ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                     body: "The build failed! Please check the errors.\n\nCheck logs: ${env.BUILD_URL}",
+                     to: "teodora.mtv@gmail.com"
         }
     }
 }
