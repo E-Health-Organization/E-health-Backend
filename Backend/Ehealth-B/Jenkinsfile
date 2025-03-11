@@ -111,7 +111,7 @@ pipeline {
             emailext (
                 subject: "SUCCESS: Build ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                 body: "The build was successful!\n\nCheck logs: ${env.BUILD_URL}",
-                to: "teodora.mtv@gmail.com"
+                to: "teodora.mtv@gmail.com",
                 mimeType: 'text/plain'
             )
         }
@@ -119,7 +119,7 @@ pipeline {
             emailext (
                 subject: "UNSTABLE: Code Analysis Issues in ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                 body: "Static code analysis detected issues. Please review Checkstyle, PMD, and SpotBugs reports.\n\nBuild Logs: ${env.BUILD_URL}",
-                to: "teodora.mtv@gmail.com"
+                to: "teodora.mtv@gmail.com",
                 mimeType: 'text/plain'
             )
         }
@@ -127,7 +127,7 @@ pipeline {
             emailext (
                 subject: "FAILURE: Build ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                 body: "The build failed! Please check the errors.\n\nCheck logs: ${env.BUILD_URL}",
-                to: "teodora.mtv@gmail.com"
+                to: "teodora.mtv@gmail.com",
                 mimeType: 'text/plain'
             )
         }
