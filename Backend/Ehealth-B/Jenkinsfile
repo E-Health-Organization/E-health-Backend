@@ -103,6 +103,9 @@ pipeline {
 
             // Générer un rapport PMD dans Jenkins après chaque build
             recordIssues(tools: [pmdParser(pattern: 'Backend/Ehealth-B/target/pmd.xml')])
+
+            // Pour debugging
+            echo "📧 Attempting to send email notification..."
         }
     
 
@@ -130,10 +133,6 @@ pipeline {
                 to: "teodora.mtv@gmail.com",
                 mimeType: 'text/plain'
             )
-        }
-
-        always {
-        echo "📧 Attempting to send email notification..."
         }
     }
 }
