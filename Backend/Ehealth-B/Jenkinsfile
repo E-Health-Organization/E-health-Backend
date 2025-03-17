@@ -6,7 +6,7 @@ pipeline {
     }
 
     environment {
-        ARTIFACT_NAME = 'Ehealth-B-0.0.1-SNAPSHOT.jar'
+        ARTIFACT_NAME = 'Ehealth-B-0.0.1-SNAPSHOT.war'
         ARTIFACT_PATH = 'Backend/Ehealth-B/target'
     }
 
