@@ -13,7 +13,7 @@
     <groupId>com.example</groupId>
     <artifactId>Ehealth-B</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>  <!-- Important pour générer un WAR -->
+    <!-- <packaging>war</packaging> Important pour générer un WAR -->
     <name>Ehealth-B</name>
     <description>Ehealth Spring Boot</description>
 
